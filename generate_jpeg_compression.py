@@ -19,11 +19,9 @@ def parseArg():
     return args
 
 def imageJpegCompression(image: Image, compression: int, filename: str):
-    # remove file extension
-    last_dot_index = filename.rfind(".")
-    jpegFilename = filename[:last_dot_index]
-    jpegFilename = jpegFilename + '_' + f'{compression:0>3}' + '.jpeg'
+    jpegFilename = filename + '_' + f'{compression:0>3}' + '.jpeg'
     image.save(jpegFilename, quality=compression, optimize = True)
+
 
 def parseCompression(compression: str):
     minCompression = 100
@@ -46,6 +44,25 @@ def parseCompression(compression: str):
     print(f'minCompression {minCompression} step: {step} maxCompression: {maxCompression}')
     return [minCompression, step, maxCompression]
 
+def parserFilename(filename: str) -> str:
+    if os.name == "nt":  # Windows
+        separator = "\\"
+    else:  # Unix-like systems
+        separator = "/"
+    last_slash_index = filename.rfind(separator)
+    if last_slash_index > 0:
+        filename = filename[last_slash_index+1:]
+    else:
+        filename = filename
+    print(filename)
+
+    # remove file extension
+    last_dot_index = filename.rfind(".")
+    jpegFilename = filename[:last_dot_index]
+
+    return jpegFilename
+
+
 if __name__ == "__main__":
     args = parseArg()
     
@@ -60,9 +77,11 @@ if __name__ == "__main__":
         compression = parseCompression(args.compression)
         print(compression)
 
+        filename = parserFilename(args.inputImage)
+        print(filename)
 
-        for index in range(compression[0], compression[1], compression[2]):
-            printf('index: {index}')
+        for index in range(compression[0], compression[2] + 1, compression[1]):
+            print(f'index: {index}')
 
     except IOError as e:
         print(f"Error loading image: File '{args.inputImage}' not found or cannot be read. {e}")
