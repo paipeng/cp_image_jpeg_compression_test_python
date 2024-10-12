@@ -44,12 +44,8 @@ def parseCompression(compression: str):
     print(f'minCompression {minCompression} step: {step} maxCompression: {maxCompression}')
     return [minCompression, step, maxCompression]
 
-def parserFilename(filename: str) -> str:
-    if os.name == "nt":  # Windows
-        separator = "\\"
-    else:  # Unix-like systems
-        separator = "/"
-    last_slash_index = filename.rfind(separator)
+def parserFilename(filename: str) -> str:    
+    last_slash_index = filename.rfind(os.path.sep)
     if last_slash_index > 0:
         filename = filename[last_slash_index+1:]
     else:
@@ -82,6 +78,8 @@ if __name__ == "__main__":
 
         for index in range(compression[0], compression[2] + 1, compression[1]):
             print(f'index: {index}')
+            imageJpegCompression(image=image, compression=index, filename=args.outputPath + os.path.sep + filename)
+
 
     except IOError as e:
         print(f"Error loading image: File '{args.inputImage}' not found or cannot be read. {e}")
