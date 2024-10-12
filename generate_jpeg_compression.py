@@ -60,6 +60,10 @@ if __name__ == "__main__":
         compression = parseCompression(args.compression)
         print(compression)
 
+
+        for index in range(compression[0], compression[1], compression[2]):
+            printf('index: {index}')
+
     except IOError as e:
         print(f"Error loading image: File '{args.inputImage}' not found or cannot be read. {e}")
     except Exception as e:
