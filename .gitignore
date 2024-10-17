@@ -164,3 +164,13 @@ cython_debug/
 
 out
 out2
+blurOut
+blurOut2
+HTWM_Jpeg_Compression
+out10
+out4
+resizeOut
+resizeOutFake
+rotateOut
+rotateOut2
+rotateResizeOut
